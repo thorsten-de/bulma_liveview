@@ -23,11 +23,23 @@ defmodule Bulma.Helpers do
            "is-#{other}"
        end}
 
-  def has(what), do: {what, &"has-#{what}-#{&1}"}
+  def has(what),
+    do:
+      {what,
+       fn
+         true ->
+           "has-#{what}"
+
+         list when is_list(list) ->
+           Enum.map_join(list, " ", &"has-#{what}-#{&1}")
+
+         other ->
+           "has-#{what}-#{other}"
+       end}
+
+  def value_of(what), do: {what, & &1}
 
   def assign_class(assigns, classes \\ []) do
-    IO.inspect(assigns)
-
     class_string =
       [assigns[:class] | classes]
       |> Enum.reduce([], &filter_class(&1, &2, assigns))
@@ -62,11 +74,6 @@ defmodule Bulma.Helpers do
   end
 
   # label_or_slot uses a given label property to label the component
-  def label_or_slot(%{label: text} = assigns) when is_binary(text) do
-    ~H"""
-      <%= @label %>
-    """
-  end
 
   # if no label is given, inner_block is rendered, if there is any
   def label_or_slot(%{inner_block: _has_block} = assigns) do
@@ -75,10 +82,13 @@ defmodule Bulma.Helpers do
     """
   end
 
-  # no label and no inner blocks, so render nothing
-  def label_or_slot(assigns),
-    do: ~H"""
+  def label_or_slot(assigns) do
+    ~H"""
+      <Bulma.Label.label {assigns} />
     """
+  end
+
+  # no label and no inner blocks, so render nothing
 
   def has_default_slot(assigns) do
     assigns
@@ -97,6 +107,25 @@ defmodule Bulma.Helpers do
   def default_slot(assigns) do
     ~H"""
       <%= render_slot(@__default_slot_content__) %>
+    """
+  end
+
+  def if_slot(assigns) do
+    case assigns[assigns.name] |> IO.inspect() do
+      [_ | _] -> ~H[<%= render_slot(@inner_block) %>]
+      _ -> ~H[]
+    end
+  end
+
+  def render_div_with_slot_or_label(assigns) do
+    ~H"""
+      <div {@attributes}><.label_or_slot {assigns} /></div>
+    """
+  end
+
+  def render_div_with_slot(assigns) do
+    ~H"""
+      <div {@attributes}><%= render_slot(@inner_block) %></div>
     """
   end
 end
