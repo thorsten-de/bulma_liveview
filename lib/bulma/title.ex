@@ -14,7 +14,7 @@ defmodule Bulma.Title do
     |> render_div_with_slot_or_label()
   end
 
-  @properties [inner_content: [], label: nil, size: nil, spaced: false]
+  @properties [inner_content: [], label: nil, size: nil, spaced: nil]
   @exclude Keyword.keys(@properties)
 
   def prepare_title(assigns, main_class) do
