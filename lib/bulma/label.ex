@@ -34,7 +34,7 @@ defmodule Bulma.Label do
 
   # label_or_slot uses a given label property to label the component
   def label(%{label: text} = assigns)
-      when is_binary(text) do
+      when not is_nil(text) do
     ~H"""
       <%= @label %>
     """
