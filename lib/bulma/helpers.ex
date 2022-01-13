@@ -16,6 +16,9 @@ defmodule Bulma.Helpers do
          true ->
            "is-#{what}"
 
+         false ->
+           nil
+
          list when is_list(list) ->
            Enum.map_join(list, " ", &"is-#{&1}")
 
@@ -30,6 +33,9 @@ defmodule Bulma.Helpers do
          true ->
            "has-#{what}"
 
+         false ->
+           nil
+
          list when is_list(list) ->
            Enum.map_join(list, " ", &"has-#{what}-#{&1}")
 
@@ -43,6 +49,7 @@ defmodule Bulma.Helpers do
     class_string =
       [assigns[:class] | classes]
       |> Enum.reduce([], &filter_class(&1, &2, assigns))
+      |> Enum.reject(&is_nil/1)
       |> Enum.reverse()
       |> Enum.join(" ")
 
