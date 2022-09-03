@@ -1,6 +1,7 @@
 defmodule Bulma.Label do
   use Phoenix.Component
   import Bulma.Helpers
+  alias Bulma.FontIcon
 
   @awesome_prefix Application.get_env(:bulma_liveview, :awesome_prefix, "fa")
 
@@ -13,7 +14,7 @@ defmodule Bulma.Label do
     ~H"""
       <span class="icon-text">
         <span class="icon">
-         <Bulma.AwesomeIcon.icon name={@icon} size={@icon_size} set={@icon_set}/>
+         <FontIcon.icon name={@icon} size={@icon_size} set={@icon_set}/>
         </span>
         <span><%= @label %></span>
       </span>
@@ -27,7 +28,7 @@ defmodule Bulma.Label do
 
     ~H"""
       <span class="icon">
-        <Bulma.AwesomeIcon.icon name={@icon} size={@icon_size} set={@icon_set}/>
+        <FontIcon.icon name={@icon} size={@icon_size} set={@icon_set}/>
       </span>
     """
   end
