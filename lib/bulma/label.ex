@@ -3,13 +3,13 @@ defmodule Bulma.Label do
   import Bulma.Helpers
   alias Bulma.FontIcon
 
-  @awesome_prefix Application.get_env(:bulma_liveview, :awesome_prefix, "fa")
+  @default_icon_set Application.get_env(:bulma_liveview, :icon_font_prefix, "fa")
 
   def label(%{icon: icon, label: text} = assigns)
       when not (is_nil(icon) or is_nil(text)) do
     assigns =
       assigns
-      |> assign_defaults(icon_size: nil, icon_set: @awesome_prefix)
+      |> assign_defaults(icon_size: nil, icon_set: @default_icon_set)
 
     ~H"""
       <span class="icon-text">
@@ -24,7 +24,7 @@ defmodule Bulma.Label do
   def label(%{icon: icon} = assigns) when not is_nil(icon) do
     assigns =
       assigns
-      |> assign_defaults(icon_size: nil, icon_set: @awesome_prefix)
+      |> assign_defaults(icon_size: nil, icon_set: @default_icon_set)
 
     ~H"""
       <span class="icon">
