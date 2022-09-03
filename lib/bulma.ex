@@ -23,7 +23,7 @@ defmodule Bulma do
 
   defmacro __using__(_whatever) do
     quote do
-      import Bulma.{Columns, Title, AwesomeIcon, Label}
+      import Bulma.{Columns, Title, FontIcon, Label}
       import Bulma.Button, only: [button: 1]
       import Bulma, only: [container: 1]
     end

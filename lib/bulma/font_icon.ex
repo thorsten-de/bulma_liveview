@@ -17,7 +17,9 @@ defmodule Bulma.FontIcon do
 
   @font_prefix Application.get_env(:bulma_liveview, :icon_font_prefix, "fa")
 
-  defp prefix(what), do: {what, &"#{@font_prefix}-#{&1}"}
+  defp prefix_text(text), do: "#{@font_prefix}-#{text}"
+
+  defp prefix(what), do: {what, &prefix_text/1}
 
   @properties [set: @font_prefix, icon: nil]
   def icon(assigns) do
@@ -27,7 +29,8 @@ defmodule Bulma.FontIcon do
       |> assign_class([
         prefix(:name),
         prefix(:size),
-        set: & &1
+        # when a set like "brands" is given, construct fa-brands
+        set: &prefix_text/1
       ])
 
     ~H"""
