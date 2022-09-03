@@ -1,4 +1,4 @@
-defmodule Bulma.MixProject do
+defmodule BulmaLiveView.MixProject do
   use Mix.Project
 
   def project do
