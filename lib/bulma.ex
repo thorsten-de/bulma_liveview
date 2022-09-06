@@ -1,9 +1,6 @@
 defmodule Bulma do
   use Phoenix.Component
   import Bulma.{Helpers}
-  alias Bulma.{Button}
-
-  def button(assigns), do: Button.button(assigns)
 
   @properties [inner_block: [], width: nil, text: nil]
   @exclude Keyword.keys(@properties)
@@ -26,6 +23,7 @@ defmodule Bulma do
       import Bulma.{Columns, Title, FontIcon, Label}
       import Bulma.Button, only: [button: 1]
       import Bulma, only: [container: 1]
+      import Bulma.Media, only: [media: 1]
     end
   end
 end
