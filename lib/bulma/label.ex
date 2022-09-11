@@ -3,18 +3,19 @@ defmodule Bulma.Label do
   import Bulma.Helpers
   alias Bulma.FontIcon
 
-  @default_icon_set Application.get_env(:bulma_liveview, :icon_font_prefix, "fa")
+  @default_icon_set Application.get_env(:bulma_liveview, :icon_font_prefix, "regular")
 
   def label(%{icon: icon, label: text} = assigns)
       when not (is_nil(icon) or is_nil(text)) do
     assigns =
       assigns
-      |> assign_defaults(icon_size: nil, icon_set: @default_icon_set)
+      |> assign_defaults(icon_font_size: nil, icon_set: @default_icon_set)
+      |> assign_class(["icon", is(:icon_size)])
 
     ~H"""
       <span class="icon-text">
-        <span class="icon">
-         <FontIcon.icon name={@icon} size={@icon_size} set={@icon_set}/>
+        <span class={@class}>
+         <FontIcon.icon name={@icon} set={@icon_set} size={@icon_font_size}/>
         </span>
         <span><%= @label %></span>
       </span>
@@ -24,11 +25,12 @@ defmodule Bulma.Label do
   def label(%{icon: icon} = assigns) when not is_nil(icon) do
     assigns =
       assigns
-      |> assign_defaults(icon_size: nil, icon_set: @default_icon_set)
+      |> assign_defaults(icon_set: @default_icon_set, icon_font_size: nil)
+      |> assign_class(["icon", is(:icon_size)])
 
     ~H"""
-      <span class="icon">
-        <FontIcon.icon name={@icon} size={@icon_size} set={@icon_set}/>
+      <span class={@class}>
+        <FontIcon.icon name={@icon}  set={@icon_set} size={@icon_font_size}/>
       </span>
     """
   end

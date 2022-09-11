@@ -21,7 +21,7 @@ defmodule Bulma.FontIcon do
 
   defp prefix(what), do: {what, &prefix_text/1}
 
-  @properties [set: @font_prefix, icon: nil]
+  @properties [set: @font_prefix <> "-regular", icon: nil]
   def icon(assigns) do
     assigns =
       assigns

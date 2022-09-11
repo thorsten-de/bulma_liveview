@@ -46,8 +46,14 @@ defmodule Bulma.Helpers do
   def value_of(what), do: {what, & &1}
 
   def assign_class(assigns, classes \\ []) do
+    classes =
+      case assigns[:class] do
+        list when is_list(list) -> list ++ classes
+        element -> [assigns[:class] | classes]
+      end
+
     class_string =
-      [assigns[:class] | classes]
+      classes
       |> Enum.reduce([], &filter_class(&1, &2, assigns))
       |> Enum.reject(&is_nil/1)
       |> Enum.reverse()
