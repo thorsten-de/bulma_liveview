@@ -49,7 +49,7 @@ defmodule Bulma.Helpers do
     classes =
       case assigns[:class] do
         list when is_list(list) -> list ++ classes
-        element -> [assigns[:class] | classes]
+        element -> [element | classes]
       end
 
     class_string =
