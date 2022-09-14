@@ -9,41 +9,31 @@ defmodule Bulma.Helpers do
   defp init({key, fun}, assigns) when is_function(fun, 0), do: assigns |> assign_new(key, fun)
   defp init({key, value}, assigns), do: init({key, fn -> value end}, assigns)
 
-  def is(what),
-    do:
-      {what,
-       fn
-         true ->
-           "is-#{what}"
-
-         false ->
-           nil
-
-         list when is_list(list) ->
-           Enum.map_join(list, " ", &"is-#{&1}")
-
-         other ->
-           "is-#{other}"
-       end}
-
-  def has(what),
-    do:
-      {what,
-       fn
-         true ->
-           "has-#{what}"
-
-         false ->
-           nil
-
-         list when is_list(list) ->
-           Enum.map_join(list, " ", &"has-#{what}-#{&1}")
-
-         other ->
-           "has-#{what}-#{other}"
-       end}
-
   def value_of(what), do: {what, & &1}
+
+  def add_if(what, opts \\ []) do
+    to_value_class = opts[:value_class] || (&to_string/1)
+    to_class = fn value -> "#{opts[:prefix]}#{opts[:class] || to_value_class.(value)}" end
+
+    {what,
+     fn
+       false ->
+         nil
+
+       true ->
+         to_class.(what)
+
+       list when is_list(list) ->
+         Enum.map_join(list, " ", to_class)
+
+       other ->
+         to_class.(other)
+     end}
+  end
+
+  def is(what), do: add_if(what, prefix: "is-")
+
+  def has(what), do: add_if(what, prefix: "has-", value_class: &"#{what}-#{&1}")
 
   def assign_class(assigns, classes \\ []) do
     classes =
@@ -91,13 +81,13 @@ defmodule Bulma.Helpers do
   # if no label is given, inner_block is rendered, if there is any
   def label_or_slot(%{inner_block: _has_block} = assigns) do
     ~H"""
-      <%= render_slot(@inner_block) %>
+    <%= render_slot(@inner_block) %>
     """
   end
 
   def label_or_slot(assigns) do
     ~H"""
-      <Bulma.Label.label {assigns} />
+    <Bulma.Label.label {assigns} />
     """
   end
 
@@ -113,13 +103,13 @@ defmodule Bulma.Helpers do
 
   def default_slot(%{__default_slot_content__: nil} = assigns) do
     ~H"""
-      <%= render_slot(@inner_block) %>
+    <%= render_slot(@inner_block) %>
     """
   end
 
   def default_slot(assigns) do
     ~H"""
-      <%= render_slot(@__default_slot_content__) %>
+    <%= render_slot(@__default_slot_content__) %>
     """
   end
 
@@ -132,13 +122,13 @@ defmodule Bulma.Helpers do
 
   def render_div_with_slot_or_label(assigns) do
     ~H"""
-      <div {@attributes}><.label_or_slot {assigns} /></div>
+    <div {@attributes}><.label_or_slot {assigns} /></div>
     """
   end
 
   def render_div_with_slot(assigns) do
     ~H"""
-      <div {@attributes}><%= render_slot(@inner_block) %></div>
+    <div {@attributes}><%= render_slot(@inner_block) %></div>
     """
   end
 end
