@@ -24,6 +24,7 @@ defmodule Bulma do
       import Bulma.Button, only: [button: 1]
       import Bulma, only: [container: 1]
       import Bulma.Media, only: [media: 1]
+      alias Bulma.Tags
     end
   end
 end
