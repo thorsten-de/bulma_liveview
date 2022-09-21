@@ -71,9 +71,37 @@ defmodule Bulma.Helpers do
   defp filter_class({item, _}, acc, _assigns), do: [item | acc]
   defp filter_class(_item, acc, _assigns), do: acc
 
-  def set_attributes_from_assigns(assigns, exclude \\ []) do
+  def assign_values(assigns) do
+    phx_values =
+      assigns
+      |> Access.get(:values, [])
+      |> Enum.reduce(%{}, fn {key, value}, acc ->
+        Map.put(acc, "phx-value-#{key}", value)
+      end)
+
     assigns
-    |> assign(:attributes, assigns_to_attributes(assigns, exclude))
+    |> assign(:phx_values, phx_values)
+  end
+
+  def set_attributes_from_assigns(assigns, opts \\ []) do
+    exclude = opts[:exclude] || []
+    include = opts[:include] || []
+
+    attributes =
+      assigns
+      |> assigns_to_attributes(exclude)
+
+    attributes =
+      include
+      |> Enum.reduce(attributes, fn item, attribs ->
+        case assigns[item] do
+          nil -> attribs
+          value -> Keyword.put(attribs, item, value)
+        end
+      end)
+
+    assigns
+    |> assign(:attributes, attributes)
   end
 
   # label_or_slot uses a given label property to label the component
@@ -114,7 +142,7 @@ defmodule Bulma.Helpers do
   end
 
   def if_slot(assigns) do
-    case assigns[assigns.name] |> IO.inspect() do
+    case assigns[assigns.name] do
       [_ | _] -> ~H[<%= render_slot(@inner_block) %>]
       _ -> ~H[]
     end

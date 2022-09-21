@@ -25,7 +25,7 @@ defmodule Bulma.Tags do
       is(:color),
       is(:style)
     ])
-    |> set_attributes_from_assigns(@exclude)
+    |> set_attributes_from_assigns(exclude: @exclude)
   end
 
   def tag(assigns) do
@@ -52,7 +52,7 @@ defmodule Bulma.Tags do
       :tags,
       add_if(:has_addons, class: "has-addons")
     ])
-    |> set_attributes_from_assigns(@exclude)
+    |> set_attributes_from_assigns(exclude: @exclude)
     |> render_div_with_slot()
   end
 end

@@ -9,7 +9,7 @@ defmodule Bulma do
       assigns
       |> assign_defaults(@properties)
       |> assign_class([:container, is(:width), has(:text)])
-      |> set_attributes_from_assigns(@exclude)
+      |> set_attributes_from_assigns(exclude: @exclude)
 
     ~H"""
       <div {@attributes}>

@@ -21,6 +21,6 @@ defmodule Bulma.Title do
     assigns
     |> assign_defaults(@properties)
     |> assign_class([main_class, is(:size), is(:spaced)])
-    |> set_attributes_from_assigns(@exclude)
+    |> set_attributes_from_assigns(exclude: @exclude)
   end
 end

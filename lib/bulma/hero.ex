@@ -9,7 +9,7 @@ defmodule Bulma.Hero do
       assigns
       |> assign_defaults(@properties)
       |> assign_class([:hero, is(:color), is(:size), is(:fullheight)])
-      |> set_attributes_from_assigns(@excludes)
+      |> set_attributes_from_assigns(exclude: @excludes)
 
     ~H"""
       <section {@attributes}>

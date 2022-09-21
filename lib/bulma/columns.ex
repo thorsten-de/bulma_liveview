@@ -8,7 +8,7 @@ defmodule Bulma.Columns do
     assigns
     |> assign_defaults(@properties)
     |> assign_class([:columns, is(:target)])
-    |> set_attributes_from_assigns(@exclude)
+    |> set_attributes_from_assigns(exclude: @exclude)
     |> render_div_with_slot()
   end
 
@@ -18,7 +18,7 @@ defmodule Bulma.Columns do
     assigns
     |> assign_defaults(@properties)
     |> assign_class([:column, is(:width)])
-    |> set_attributes_from_assigns(@exclude)
+    |> set_attributes_from_assigns(exclude: @exclude)
     |> render_div_with_slot()
   end
 end

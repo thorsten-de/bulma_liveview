@@ -25,7 +25,7 @@ defmodule Bulma.Tabs do
       is(:"toggle-rounded"),
       is(:fullwidth)
     ])
-    |> set_attributes_from_assigns(@exclude)
+    |> set_attributes_from_assigns(exclude: @exclude)
   end
 
   def tabs(assigns) do

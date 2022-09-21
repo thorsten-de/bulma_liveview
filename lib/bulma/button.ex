@@ -26,7 +26,7 @@ defmodule Bulma.Button do
       has(:text),
       is(:fullwidth)
     ])
-    |> set_attributes_from_assigns(@exclude)
+    |> set_attributes_from_assigns(exclude: @exclude)
   end
 
   def button(assigns) do

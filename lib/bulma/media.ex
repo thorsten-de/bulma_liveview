@@ -18,7 +18,7 @@ defmodule Bulma.Media do
       assigns
       |> assign_defaults(@properties)
       |> assign_class([:media])
-      |> set_attributes_from_assigns(@exclude)
+      |> set_attributes_from_assigns(exclude: @exclude)
 
     ~H"""
     <article {@attributes}>
