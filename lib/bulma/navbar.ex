@@ -9,7 +9,7 @@ defmodule Bulma.Navbar do
       assigns
       |> assign_defaults(@properties)
       |> assign_class([:navbar, is(:color), is(:transparent), is(:fixed)])
-      |> set_attributes_from_assigns(@excludes)
+      |> set_attributes_from_assigns(exclude: @excludes)
 
     ~H"""
       <nav {@attributes}>
@@ -61,19 +61,68 @@ defmodule Bulma.Navbar do
     """
   end
 
-  def item(%{href: _href} = assigns) do
+  def item(%{patch: _destination} = assigns) do
+    assigns = prepare_item_assigns(assigns)
+
     ~H"""
-      <a href={@href} class="navbar-item">
-        <.label_or_slot {assigns} />
+      <%= live_patch to: @patch, class: @class do %>
+        <.label_or_slot {@attributes}   />
+      <% end %>
+    """
+  end
+
+  def item(%{href: _href} = assigns) do
+    link_attributes =
+      assigns
+      |> assigns_to_attributes()
+
+    assigns =
+      assigns
+      |> prepare_item_assigns()
+      |> assign(link_attributes: link_attributes)
+
+    ~H"""
+      <a class={@class} {@link_attributes}>
+        <.label_or_slot {@attributes}   />
       </a>
     """
   end
 
   def item(assigns) do
+    assigns = prepare_item_assigns(assigns)
+
     ~H"""
-      <div class="navbar-item">
-        <.label_or_slot {assigns} />
+      <div class={@class}>
+        <.label_or_slot {@attributes} />
       </div>
+    """
+  end
+
+  defp prepare_item_assigns(assigns) do
+    assigns
+    |> assign_class(["navbar-item"])
+    |> set_attributes_from_assigns(
+      include: [:inner_block],
+      exclude: [:class, :href]
+    )
+  end
+
+  def dropdown(assigns) do
+    assigns =
+      assigns
+      |> assign_defaults(inner_block: [], label: "")
+      |> assign_class(["has-dropdown", is(:hoverable), is(:active)])
+
+    ~H"""
+    <.item class={@class}>
+      <a class="navbar-link">
+        <%= @label %>
+      </a>
+
+      <div class="navbar-dropdown">
+        <%= render_slot(@inner_block) %>
+      </div>
+    </.item>
     """
   end
 
