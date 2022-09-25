@@ -18,11 +18,21 @@ defmodule Bulma do
     """
   end
 
+  def section(assigns) do
+    assigns = assigns |> assign_defaults(inner_block: [])
+
+    ~H"""
+    <section class="section">
+      <%= render_slot(@inner_block) %>
+    </section>
+    """
+  end
+
   defmacro __using__(_whatever) do
     quote do
       import Bulma.{Columns, Title, FontIcon, Label}
       import Bulma.Button, only: [button: 1]
-      import Bulma, only: [container: 1]
+      import Bulma, only: [container: 1, section: 1]
       import Bulma.Media, only: [media: 1]
       alias Bulma.Tags
     end
