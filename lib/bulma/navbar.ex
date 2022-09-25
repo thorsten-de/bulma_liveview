@@ -74,7 +74,7 @@ defmodule Bulma.Navbar do
   def item(%{href: _href} = assigns) do
     link_attributes =
       assigns
-      |> assigns_to_attributes()
+      |> assigns_to_attributes([:href])
 
     assigns =
       assigns
@@ -82,9 +82,9 @@ defmodule Bulma.Navbar do
       |> assign(link_attributes: link_attributes)
 
     ~H"""
-      <a class={@class} {@link_attributes}>
-        <.label_or_slot {@attributes}   />
-      </a>
+      <%= Phoenix.HTML.Link.link Keyword.merge(@link_attributes, to: @href, class: @class) do %>
+        <.label_or_slot {@attributes} />
+      <% end %>
     """
   end
 
