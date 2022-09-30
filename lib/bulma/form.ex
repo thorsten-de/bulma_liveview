@@ -65,7 +65,6 @@ defmodule Bulma.Form do
       assigns.icon
       |> Enum.map(& &1.align)
       |> Enum.uniq()
-      |> IO.inspect()
 
     assigns
     |> assign(:icons, icons)
