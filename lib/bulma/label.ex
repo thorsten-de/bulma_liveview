@@ -26,7 +26,7 @@ defmodule Bulma.Label do
     assigns =
       assigns
       |> assign_defaults(icon_set: @default_icon_set, icon_font_size: nil)
-      |> assign_class(["icon", is(:icon_size)])
+      |> assign_class(["icon", is(:icon_size), is(:align)])
 
     ~H"""
       <span class={@class}>

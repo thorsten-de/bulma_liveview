@@ -46,13 +46,18 @@ defmodule Bulma.Helpers do
     class_string =
       classes
       |> Enum.reduce([], &filter_class(&1, &2, assigns))
-      |> Enum.reject(&is_nil/1)
+      |> Enum.reject(&is_empty/1)
       |> Enum.reverse()
       |> Enum.join(" ")
 
     assigns
     |> assign(to, class_string)
   end
+
+  defp is_empty(nil), do: true
+  defp is_empty([]), do: true
+  defp is_empty(""), do: true
+  defp is_empty(_), do: false
 
   defp filter_class(nil, acc, _), do: acc
   defp filter_class(item, acc, _assigns) when is_binary(item) or is_atom(item), do: [item | acc]

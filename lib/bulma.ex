@@ -35,6 +35,8 @@ defmodule Bulma do
       import Bulma, only: [container: 1, section: 1]
       import Bulma.Media, only: [media: 1]
       alias Bulma.Tags
+      alias Bulma.Form
+      alias Bulma.Button
     end
   end
 end
