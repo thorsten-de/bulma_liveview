@@ -35,9 +35,10 @@ defmodule Bulma.Helpers do
 
   def has(what), do: add_if(what, prefix: "has-", value_class: &"#{what}-#{&1}")
 
-  def assign_class(assigns, classes \\ []) do
+  def assign_class(assigns, to \\ :class, classes) do
     classes =
-      case assigns[:class] do
+      case assigns[to] do
+        nil -> classes
         list when is_list(list) -> list ++ classes
         element -> [element | classes]
       end
@@ -50,7 +51,7 @@ defmodule Bulma.Helpers do
       |> Enum.join(" ")
 
     assigns
-    |> assign(:class, class_string)
+    |> assign(to, class_string)
   end
 
   defp filter_class(nil, acc, _), do: acc
