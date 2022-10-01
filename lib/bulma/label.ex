@@ -11,13 +11,16 @@ defmodule Bulma.Label do
       assigns
       |> assign_defaults(icon_font_size: nil, icon_set: @default_icon_set)
       |> assign_class(["icon", is(:icon_size)])
+      |> set_attributes_from_assigns(
+        exclude: [:icon_font_size, :icon, :icon_set, :icon_size, :class]
+      )
 
     ~H"""
       <span class="icon-text">
         <span class={@class}>
          <FontIcon.icon name={@icon} set={@icon_set} size={@icon_font_size}/>
         </span>
-        <span><%= @label %></span>
+        <span><.label {@attributes} /></span>
       </span>
     """
   end
@@ -29,9 +32,16 @@ defmodule Bulma.Label do
       |> assign_class(["icon", is(:icon_size), is(:align)])
 
     ~H"""
-      <span class={@class}>
-        <FontIcon.icon name={@icon}  set={@icon_set} size={@icon_font_size}/>
-      </span>
+    <span class={@class}>
+      <FontIcon.icon name={@icon} set={@icon_set} size={@icon_font_size}/>
+    </span>
+    """
+  end
+
+  def label(%{label: text, abbr: abbr} = assigns)
+      when not is_nil(text) and not is_nil(abbr) do
+    ~H"""
+    <abbr title={@label}><%= @abbr %></abbr>
     """
   end
 
@@ -39,7 +49,7 @@ defmodule Bulma.Label do
   def label(%{label: text} = assigns)
       when not is_nil(text) do
     ~H"""
-      <%= @label %>
+    <%= @label %>
     """
   end
 
