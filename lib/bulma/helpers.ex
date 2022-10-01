@@ -147,6 +147,10 @@ defmodule Bulma.Helpers do
     """
   end
 
+  def has_inner_block?(%{inner_block: nil}), do: false
+
+  def has_inner_block?(_what), do: true
+
   def if_slot(assigns) do
     case assigns[assigns.name] do
       [_ | _] -> ~H[<%= render_slot(@inner_block) %>]
@@ -154,6 +158,7 @@ defmodule Bulma.Helpers do
     end
   end
 
+  @spec render_div_with_slot_or_label(any) :: Phoenix.LiveView.Rendered.t()
   def render_div_with_slot_or_label(assigns) do
     ~H"""
     <div {@attributes}><.label_or_slot {assigns} /></div>

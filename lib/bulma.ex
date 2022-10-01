@@ -36,6 +36,8 @@ defmodule Bulma do
       import Bulma.Media, only: [media: 1]
       import Bulma.Form, only: [field: 1, inputs: 1]
       import Bulma.Table, only: [table: 1]
+      import Bulma.Card, only: [card: 1]
+      import Bulma.Hero, only: [hero: 1]
       alias Bulma.Tags
       alias Bulma.Form
       alias Bulma.Button
