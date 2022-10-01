@@ -9,17 +9,6 @@ defmodule Bulma.Form do
   import Bulma.Label, only: [label: 1]
   alias Phoenix.HTML.Form, as: PhxForm
 
-  def assign_options(assigns),
-    do:
-      update(
-        assigns,
-        :options,
-        &Enum.map(
-          &1,
-          fn {key, label} when is_atom(:key) -> {label, key} end
-        )
-      )
-
   def control(assigns) do
     assigns =
       assigns
@@ -75,7 +64,7 @@ defmodule Bulma.Form do
     """
   end
 
-  def field(%{input: input} = assigns) do
+  def field(%{input: input} = assigns) when not is_nil(input) do
     field_attributes =
       assigns
       |> assigns_to_attributes(
@@ -108,12 +97,13 @@ defmodule Bulma.Form do
 
     ~H"""
     <.field {@field_attributes}>
-     <%= case assigns[:input] do
-          nil -> []
+      <%= case assigns[:input] do
           function_name when is_atom(function_name) -> apply(PhxForm, function_name, [@form, @name, @attributes])
           f when is_function(f, 3) -> f.(@form, @name, @attributes)
           _ -> []
         end %>
+
+      <%= if assigns[:inner_block], do: render_slot(@inner_block), else: [] %>
     </.field>
     """
   end
@@ -130,6 +120,15 @@ defmodule Bulma.Form do
           <%= render_slot(@inner_block) %>
       </.control>
     </div>
+    """
+  end
+
+  def inputs(assigns) do
+    ~H"""
+    <%= for inputs <- PhxForm.inputs_for(@form, @field) do %>
+      <%= PhxForm.hidden_inputs_for(inputs) %>
+      <%= render_slot(@inner_block, inputs) %>
+    <% end %>
     """
   end
 
@@ -158,4 +157,18 @@ defmodule Bulma.Form do
     assigns
     |> assign(:icons, icons)
   end
+
+  defp assign_options(assigns),
+    do:
+      update(
+        assigns,
+        :options,
+        &Enum.map(
+          &1,
+          fn
+            {key, label} when is_atom(:key) -> {label, key}
+            text when is_binary(text) -> text
+          end
+        )
+      )
 end
