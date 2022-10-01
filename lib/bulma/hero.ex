@@ -21,7 +21,7 @@ defmodule Bulma.Hero do
         <div class="hero-body">
           <%= render_slot(@inner_block) %>
         </div>
-         <.if_slot {assigns} name={:head}>
+         <.if_slot {assigns} name={:foot}>
           <div class="hero-foot">
             <%= render_slot(@foot) %>
           </div>
