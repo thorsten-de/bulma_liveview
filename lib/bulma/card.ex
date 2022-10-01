@@ -26,6 +26,7 @@ defmodule Bulma.Card do
           <p class="card-header-title">
             <.label {header} />
           </p>
+          <%= if has_inner_block?(header), do: render_slot(header) %>
         </header>
       <% end %>
       <%= for image <- @image, has_inner_block?(image) do %>
