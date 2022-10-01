@@ -124,8 +124,12 @@ defmodule Bulma.Form do
   end
 
   def inputs(assigns) do
+    assigns =
+      assigns
+      |> set_attributes_from_assigns(exclude: [:form, :field])
+
     ~H"""
-    <%= for inputs <- PhxForm.inputs_for(@form, @field) do %>
+    <%= for inputs <- PhxForm.inputs_for(@form, @field, @attributes) do %>
       <%= PhxForm.hidden_inputs_for(inputs) %>
       <%= render_slot(@inner_block, inputs) %>
     <% end %>
