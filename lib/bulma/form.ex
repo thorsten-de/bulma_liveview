@@ -6,56 +6,145 @@ defmodule Bulma.Form do
   """
   use Phoenix.Component
   import Bulma.Helpers
-
   import Bulma.Label, only: [label: 1]
+  alias Phoenix.HTML.Form, as: PhxForm
 
-  def(field(assigns)) do
+  def assign_options(assigns),
+    do:
+      update(
+        assigns,
+        :options,
+        &Enum.map(
+          &1,
+          fn {key, label} when is_atom(:key) -> {label, key} end
+        )
+      )
+
+  def control(assigns) do
+    assigns =
+      assigns
+      |> assign_defaults(inner_block: [], icon: [])
+      |> assign_icons()
+      |> assign_class(:class, [
+        "control",
+        has(:icons),
+        is(:loading),
+        add_if(:"is-expanded")
+      ])
+
+    ~H"""
+    <div class={@class}>
+      <%= render_slot(@inner_block) %>
+      <%= for icon <- @icon do %>
+        <.label {icon} />
+      <% end %>
+    </div>
+    """
+  end
+
+  def field(%{input: :select} = assigns) do
+    field_attributes =
+      assigns
+      |> assigns_to_attributes(
+        _exclude = [
+          :input,
+          :input_class,
+          :options,
+          :color,
+          :size
+        ]
+      )
+
+    assigns =
+      assigns
+      |> assign_defaults(label: nil, form: nil, name: nil, icon: [])
+      |> assign_options()
+      |> assign_class(:select_class, ["select", is(:color), is(:size), is(:loading), is(:style)])
+      |> assign_class(:class, [is(:state)])
+      |> set_attributes_from_assigns(
+        exclude: [:select_class, :form, :name, :label, :options, :icon]
+      )
+      |> assign(field_attributes: field_attributes)
+
+    ~H"""
+      <.field {@field_attributes}>
+        <div class={@select_class}>
+          <%= PhxForm.select(@form, @name, @options, @attributes) %>
+        </div>
+      </.field>
+    """
+  end
+
+  def field(%{input: input} = assigns) do
+    field_attributes =
+      assigns
+      |> assigns_to_attributes(
+        _exclude = [
+          :input,
+          :input_class
+        ]
+      )
+
+    assigns =
+      assigns
+      |> assign_class(:class, ["input", is(:size), is(:style), is(:state)])
+      |> set_attributes_from_assigns(
+        exclude: [
+          :input,
+          :field_class,
+          :label_class,
+          :form,
+          :label,
+          :name,
+          :type,
+          :icon,
+          :size,
+          :style,
+          :state,
+          :"is-expanded"
+        ]
+      )
+      |> assign(field_attributes: field_attributes)
+
+    ~H"""
+    <.field {@field_attributes}>
+     <%= case assigns[:input] do
+          nil -> []
+          function_name when is_atom(function_name) -> apply(PhxForm, function_name, [@form, @name, @attributes])
+          f when is_function(f, 3) -> f.(@form, @name, @attributes)
+          _ -> []
+        end %>
+    </.field>
+    """
+  end
+
+  def field(assigns) do
     assigns = prepare_field_assigns(assigns)
 
     ~H"""
     <div class={@field_class}>
       <%= if @label do %>
-        <label class={@label_class}><%= @label %></label>
+        <%= PhxForm.label(@form, @name, @label, class: @label_class) %>
       <% end %>
-      <div class={@control_class}>
-        <%= case assigns[:type] do
-          nil -> []
-          function_name when is_atom(function_name) -> apply(Phoenix.HTML.Form, function_name, [@form, @name, Keyword.merge(@attributes, class: @input_class)])
-          f when is_function(f, 3) -> f.(@form, @name, Keyword.merge(@attributes, class: @input_class))
-          _ -> []
-        end %>
-        <%= for icon <- @icon do %>
-          <.label {icon} />
-        <% end %>
-        <%= if assigns[:inner_block] do %>
+      <.control {@attributes}>
           <%= render_slot(@inner_block) %>
-        <% end %>
-      </div>
+      </.control>
     </div>
     """
   end
 
   defp prepare_field_assigns(assigns) do
     assigns
-    |> assign_defaults(label: nil, form: nil, name: nil, icon: [])
-    |> assign_icons()
-    |> assign_class(:control_class, ["control", has(:icons), add_if(:"is-expanded")])
-    |> assign_class(:input_class, ["input"])
+    |> assign_defaults(label: nil, form: nil, name: nil, icon: [], inner_block: [])
     |> assign_class(:field_class, ["field"])
     |> assign_class(:label_class, ["label"])
     |> set_attributes_from_assigns(
       exclude: [
-        :input_class,
         :field_class,
         :label_class,
-        :control_class,
         :form,
         :label,
-        :name,
-        :type,
-        :icons,
-        :icon,
-        :"is-expanded"
+        :name
       ]
     )
   end
