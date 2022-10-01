@@ -9,6 +9,7 @@ defmodule Bulma.Button do
     label: nil,
     state: nil,
     style: nil,
+    class: nil,
     fullwidth: false
   ]
 
@@ -33,7 +34,7 @@ defmodule Bulma.Button do
     assigns = prepare_button_assigns(assigns)
 
     ~H"""
-      <button {@attributes}><.label_or_slot {assigns}/></button>
+      <button class={@class}><.label_or_slot {@attributes}/></button>
     """
   end
 
@@ -41,7 +42,7 @@ defmodule Bulma.Button do
     assigns = prepare_button_assigns(assigns)
 
     ~H"""
-      <input type="submit" {@attributes}/>
+      <input type="submit" class={@class} {@attributes}/>
     """
   end
 
@@ -49,15 +50,7 @@ defmodule Bulma.Button do
     assigns = prepare_button_assigns(assigns)
 
     ~H"""
-      <input type="reset" {@attributes}/>
-    """
-  end
-
-  def link(assigns) do
-    assigns = prepare_button_assigns(assigns)
-
-    ~H"""
-      <a {@attributes}><.label_or_slot {assigns}/></a>
+      <input type="reset" class={@class} {@attributes}/>
     """
   end
 end
