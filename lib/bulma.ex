@@ -31,6 +31,19 @@ defmodule Bulma do
     """
   end
 
+  def content(assigns) do
+    assigns =
+      assigns
+      |> assign_defaults(inner_block: [])
+      |> assign_class(["content", is(:size)])
+
+    ~H"""
+    <div class={@class}>
+      <%= render_slot(@inner_block) %>
+    </div>
+    """
+  end
+
   def section(assigns) do
     assigns = assigns |> assign_defaults(inner_block: [])
 
