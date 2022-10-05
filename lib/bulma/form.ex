@@ -31,6 +31,33 @@ defmodule Bulma.Form do
     """
   end
 
+  def field(%{input: :textarea} = assigns) do
+    field_attributes =
+      assigns
+      |> assigns_to_attributes(
+        _exclude = [
+          :input,
+          :input_class,
+          :rows,
+          :color,
+          :size
+        ]
+      )
+
+    assigns =
+      assigns
+      |> assign_defaults(label: nil, form: nil, name: nil, icon: [])
+      |> assign_class(:class, ["textarea", is(:state)])
+      |> set_attributes_from_assigns(exclude: [:form, :name, :label, :icon])
+      |> assign(field_attributes: field_attributes)
+
+    ~H"""
+      <.field {@field_attributes}>
+        <%= PhxForm.textarea(@form, @name, @attributes) %>
+      </.field>
+    """
+  end
+
   def field(%{input: :select} = assigns) do
     field_attributes =
       assigns
