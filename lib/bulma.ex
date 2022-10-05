@@ -58,7 +58,7 @@ defmodule Bulma do
     quote do
       import Bulma.{Columns, Title, FontIcon, Label}
       import Bulma.Button, only: [button: 1]
-      import Bulma, only: [container: 1, section: 1, box: 1]
+      import Bulma, only: [container: 1, section: 1, box: 1, content: 1]
       import Bulma.Media, only: [media: 1]
       import Bulma.Form, only: [field: 1, inputs: 1]
       import Bulma.Table, only: [table: 1]
