@@ -54,6 +54,23 @@ defmodule Bulma.Helpers do
     |> assign(to, class_string)
   end
 
+  def assign_bindings(assigns, name, types) do
+    bindings =
+      types
+      |> Enum.reduce([], fn type, acc ->
+        case assigns[type] do
+          nil ->
+            acc
+
+          value ->
+            [{"phx-#{type}", value} | acc]
+        end
+      end)
+
+    assigns
+    |> assign(name, bindings)
+  end
+
   defp is_empty(nil), do: true
   defp is_empty([]), do: true
   defp is_empty(""), do: true

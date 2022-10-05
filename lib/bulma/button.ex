@@ -10,7 +10,9 @@ defmodule Bulma.Button do
     state: nil,
     style: nil,
     class: nil,
-    fullwidth: false
+    fullwidth: false,
+    click: nil,
+    target: nil
   ]
 
   @exclude Keyword.keys(@properties)
@@ -28,13 +30,14 @@ defmodule Bulma.Button do
       is(:fullwidth)
     ])
     |> set_attributes_from_assigns(exclude: @exclude)
+    |> assign_bindings(:bindings, [:click, :target])
   end
 
   def button(assigns) do
     assigns = prepare_button_assigns(assigns)
 
     ~H"""
-      <button class={@class}><.label_or_slot {@attributes}/></button>
+      <button class={@class} {@bindings}><.label_or_slot {@attributes} /></button>
     """
   end
 
