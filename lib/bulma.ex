@@ -18,6 +18,19 @@ defmodule Bulma do
     """
   end
 
+  def box(assigns) do
+    assigns =
+      assigns
+      |> assign_defaults(inner_block: [])
+      |> assign_class(["box"])
+
+    ~H"""
+    <div class={@class}>
+      <%= render_slot(@inner_block) %>
+    </div>
+    """
+  end
+
   def section(assigns) do
     assigns = assigns |> assign_defaults(inner_block: [])
 
@@ -32,7 +45,7 @@ defmodule Bulma do
     quote do
       import Bulma.{Columns, Title, FontIcon, Label}
       import Bulma.Button, only: [button: 1]
-      import Bulma, only: [container: 1, section: 1]
+      import Bulma, only: [container: 1, section: 1, box: 1]
       import Bulma.Media, only: [media: 1]
       import Bulma.Form, only: [field: 1, inputs: 1]
       import Bulma.Table, only: [table: 1]
