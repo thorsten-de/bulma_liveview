@@ -9,7 +9,9 @@ defmodule Bulma.Table do
     column: [],
     footer: [],
     header: [],
-    column_header: []
+    column_header: [],
+    style: nil,
+    fullwidth: nil
   ]
   def table(assigns) do
     assigns =
