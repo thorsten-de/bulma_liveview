@@ -2,6 +2,8 @@ defmodule Bulma.Navbar do
   use Phoenix.Component
   import Bulma.Helpers
 
+  alias Phoenix.LiveView.JS
+
   @properties [inner_block: [], color: nil, transparent: false, fixed: nil]
   @excludes Keyword.keys(@properties)
   def navbar(assigns) do
@@ -28,7 +30,7 @@ defmodule Bulma.Navbar do
 
   def menu(assigns) do
     ~H"""
-      <div id={@id} class="navbar-menu">
+      <div id={@id} class="navbar-menu" phx-click-away={JS.remove_class("is-active", to: "##{@id}")} >
         <%= render_slot(@inner_block) %>
       </div>
     """
@@ -52,8 +54,7 @@ defmodule Bulma.Navbar do
 
   def burger(assigns) do
     ~H"""
-      <a class="navbar-burger" aria-label="menu" aria-expanded="false"
-        data-target={@data_target}>
+      <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" phx-click={JS.add_class("is-active", to: @target)} >
         <span aria-hidden="true"></span>
         <span aria-hidden="true"></span>
         <span aria-hidden="true"></span>
