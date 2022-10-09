@@ -6,7 +6,6 @@ defmodule Bulma.Button do
     size: nil,
     color: nil,
     text: nil,
-    label: nil,
     state: nil,
     style: nil,
     class: nil,
