@@ -56,17 +56,19 @@ defmodule Bulma do
 
   defmacro __using__(_whatever) do
     quote do
-      import Bulma.{Columns, Title, FontIcon, Label}
-      import Bulma.Button, only: [button: 1]
-      import Bulma, only: [container: 1, section: 1, box: 1, content: 1]
-      import Bulma.Media, only: [media: 1]
-      import Bulma.Form, only: [field: 1, inputs: 1]
-      import Bulma.Table, only: [table: 1]
-      import Bulma.Card, only: [card: 1]
-      import Bulma.Hero, only: [hero: 1]
       alias Bulma.Tags
       alias Bulma.Form
       alias Bulma.Button
+      alias Bulma.Dropdown
+      import Bulma, only: [container: 1, section: 1, box: 1, content: 1]
+      import Bulma.{Columns, Title, FontIcon, Label}
+      import Button, only: [button: 1]
+      import Bulma.Media, only: [media: 1]
+      import Form, only: [field: 1, inputs: 1]
+      import Bulma.Table, only: [table: 1]
+      import Bulma.Card, only: [card: 1]
+      import Bulma.Hero, only: [hero: 1]
+      import Dropdown, only: [dropdown: 1]
     end
   end
 end
