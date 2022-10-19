@@ -15,7 +15,7 @@ defmodule Bulma.FontIcon do
   use Phoenix.Component
   import Bulma.Helpers
 
-  @font_prefix Application.get_env(:bulma_liveview, :icon_font_prefix, "fa")
+  @font_prefix Application.compile_env(:bulma_liveview, :icon_font_prefix, "fa")
 
   defp prefix_text(text), do: "#{@font_prefix}-#{text}"
 
