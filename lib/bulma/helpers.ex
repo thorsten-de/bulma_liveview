@@ -1,6 +1,8 @@
 defmodule Bulma.Helpers do
   use Phoenix.Component
 
+  import Phoenix.Component
+
   def assign_defaults(assigns, definitions \\ []) do
     definitions
     |> Enum.reduce(assigns, &init/2)
