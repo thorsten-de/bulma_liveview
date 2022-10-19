@@ -189,4 +189,8 @@ defmodule Bulma.Helpers do
     <div {@attributes}><%= render_slot(@inner_block) %></div>
     """
   end
+
+  def has_slot?([]), do: false
+  def has_slot?([_slot|_]), do: true
+  def has_slot?(_other), do: false
 end
