@@ -8,9 +8,18 @@ defmodule Bulma.Level do
   @doc """
   Define an horizontal level
   """
-  slot :left, default: [], doc: "Elements on the left side of this level"
-  slot :right, default: [], doc: "Elements on the left side of this level"
-  slot :center, default: [], doc: "Elements in the center of this level"
+  slot :left, default: [], doc: "Elements on the left side of this level" do
+    attr :class, :any
+    attr :text, :any
+  end
+  slot :right, default: [], doc: "Elements on the left side of this level" do
+    attr :class, :any
+    attr :text, :any
+  end
+  slot :center, default: [], doc: "Elements in the center of this level" do
+    attr :class, :any
+    attr :text, :any
+  end
   attr :class, :any
   attr :style, :any, doc: "Customize level style, e.g. by setting mobile for is-mobile"
 
@@ -25,12 +34,12 @@ defmodule Bulma.Level do
           <%= render_slot(item) %>
         </.item>
       </div>
-      <.item :for={item <- @center} >
+      <.item :for={item <- @center} {item} >
         <%= render_slot(item) %>
       </.item>
       <%= render_slot(@inner_block) %>
         <div :if={has_slot?(@right)} class="level-right">
-        <.item :for={item <- @right}>
+        <.item :for={item <- @right} {item}>
           <%= render_slot(item) %>
         </.item>
       </div>
