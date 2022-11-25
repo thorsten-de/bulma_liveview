@@ -69,6 +69,7 @@ defmodule Bulma do
       import Bulma.Card, only: [card: 1]
       import Bulma.Hero, only: [hero: 1]
       import Dropdown, only: [dropdown: 1]
+      import Bulma.Level, only: [level: 1]
     end
   end
 end
