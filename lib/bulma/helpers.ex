@@ -34,6 +34,7 @@ defmodule Bulma.Helpers do
   end
 
   def is(what), do: add_if(what, prefix: "is-")
+  def are(what), do: add_if(what, prefix: "are-")
 
   def has(what), do: add_if(what, prefix: "has-", value_class: &"#{what}-#{&1}")
 
