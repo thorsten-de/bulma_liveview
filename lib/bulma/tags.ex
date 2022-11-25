@@ -5,54 +5,57 @@ defmodule Bulma.Tags do
   """
   use Phoenix.Component
   import Bulma.Helpers
+  import Bulma.Label, only: [label: 1]
 
   # style is used to generate "is-rounded" style or "is-delete" special tags by
   # defining style="rounded" or style="delete"
-  @properties [
-    size: nil,
-    color: nil,
-    label: nil,
-    style: nil
-  ]
-  @exclude Keyword.keys(@properties)
+  attr :size, :any
+  attr :color, :any
+  attr :style, :any
+  attr :class, :any
 
-  defp prepare_tag_assigns(assigns) do
-    assigns
-    |> assign_defaults(@properties)
-    |> assign_class([
-      :tag,
-      is(:size),
-      is(:color),
-      is(:style)
-    ])
-    |> set_attributes_from_assigns(exclude: @exclude)
-  end
+  # Attributes given to label component
+  attr :icon, :string
+  attr :icon_set, :string
+  attr :label, :string
+
+  slot :inner_block
 
   def tag(assigns) do
     assigns =
       assigns
-      |> prepare_tag_assigns()
+      |> assign_class([
+      "tag",
+      is(:size),
+      is(:color),
+      is(:style)
+    ])
+    |> set_attributes_from_assigns(
+     exclude: [:class, :size, :color, :style]
+    )
 
     ~H"""
-    <span {@attributes}>
-      <.label_or_slot {assigns} />
+    <span class={@class}>
+      <%= if has_slot?(@inner_block) do %>
+        <%= render_slot(@inner_block) %>
+      <% else %>
+        <.label {@attributes} />
+      <% end %>
     </span>
     """
   end
 
-  @properties [
-    has_addons: false,
-    inner_block: []
-  ]
-  @exclude Keyword.keys(@properties)
+  attr :has_addons, :boolean, default: :false
+  slot :inner_block
+
   def tags(assigns) do
-    assigns
-    |> assign_defaults(@properties)
-    |> assign_class([
-      :tags,
-      add_if(:has_addons, class: "has-addons")
-    ])
-    |> set_attributes_from_assigns(exclude: @exclude)
-    |> render_div_with_slot()
+    assigns = assigns
+    |> assign_class(["tags", are(:size), add_if(:has_addons, class: "has-addons")])
+
+    ~H"""
+    <div class={@class}>
+      <%= render_slot(@inner_block) %>
+    </div>
+    """
   end
 end
