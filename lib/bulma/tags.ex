@@ -46,7 +46,9 @@ defmodule Bulma.Tags do
   end
 
   attr :has_addons, :boolean, default: :false
+  attr :class, :any
   slot :inner_block
+
 
   def tags(assigns) do
     assigns = assigns
