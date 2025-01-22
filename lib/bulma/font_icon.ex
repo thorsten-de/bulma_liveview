@@ -16,12 +16,13 @@ defmodule Bulma.FontIcon do
   import Bulma.Helpers
 
   @font_prefix Application.compile_env(:bulma_liveview, :icon_font_prefix, "fa")
+  @font_set Application.compile_env(:bulma_liveview, :icon_font_set, "solid")
 
   defp prefix_text(text), do: "#{@font_prefix}-#{text}"
 
   defp prefix(what), do: {what, &prefix_text/1}
 
-  @properties [set: @font_prefix <> "-regular", icon: nil]
+  @properties [set: @font_prefix <> "-" <> @font_set, icon: nil]
   def icon(assigns) do
     assigns =
       assigns
