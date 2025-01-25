@@ -3,7 +3,7 @@ defmodule Bulma.Label do
   import Bulma.Helpers
   alias Bulma.FontIcon
 
-  @default_icon_set Application.get_env(:bulma_liveview, :icon_font_prefix, "regular")
+  @default_icon_set Application.compile_env(:bulma_liveview, :icon_font_set, "solid")
 
   def label(%{icon: icon, label: text} = assigns)
       when not (is_nil(icon) or is_nil(text)) do

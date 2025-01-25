@@ -1,6 +1,8 @@
 defmodule Bulma.Helpers do
   use Phoenix.Component
 
+  import Phoenix.Component
+
   def assign_defaults(assigns, definitions \\ []) do
     definitions
     |> Enum.reduce(assigns, &init/2)
@@ -32,6 +34,7 @@ defmodule Bulma.Helpers do
   end
 
   def is(what), do: add_if(what, prefix: "is-")
+  def are(what), do: add_if(what, prefix: "are-")
 
   def has(what), do: add_if(what, prefix: "has-", value_class: &"#{what}-#{&1}")
 
@@ -187,4 +190,8 @@ defmodule Bulma.Helpers do
     <div {@attributes}><%= render_slot(@inner_block) %></div>
     """
   end
+
+  def has_slot?([]), do: false
+  def has_slot?([_slot|_]), do: true
+  def has_slot?(_other), do: false
 end

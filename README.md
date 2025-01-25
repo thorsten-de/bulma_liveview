@@ -3,7 +3,7 @@
 This component library provides some simple [LiveView](https://hexdocs.pm/phoenix_live_view) components based on [Bulma](https://bulma.io/), a modern CSS framework. Bulma is CSS only, so there are no issues to integrate some required JS with LiveView.
 
 > [!WARNING]
-> This is _bulma_liveview_ compatible with LiveView 0.17, and I haven't used it for a long time.
+> This is _bulma_liveview_ compatible with LiveView 0.18
 
 ## Installation
 
@@ -24,13 +24,13 @@ This library does not contain any assets from Bulma itself. Your application has
 The `label` component is designed to support icons by specifing the `icon` attribute with the desired icon class. As there are many icon fonts available, it is up to your application to contribute the assets to show the icons. By default, it is assumed that [Font Awesome](https://fontawesome.com/) is used and css classes are generated accordingly:
 
 - The given `icon` is prefixed with `fa`, so `icon="plus"` results in the css class `fa-plus`.
-- The _style_ can be given by the `set` attribute on an `icon` component or the  `icon_set` on a `label` component. It defaults to `regular`, so the css class `fa-regular` is added to the  component.
+- The _style_ can be given by the `set` attribute on an `icon` component or the  `icon_set` on a `label` component. It defaults to `solid`, so the css class `fa-regular` is added to the  component.
 
 Both defaults can be overridden in your appliction's configuration:
 
 ```elixir
   config :bulma_liveview, :icon_font_prefix, "fa"
-  cnfIig :bulma_liveview, :icon_font_set, "solid"
+  cnfIig :bulma_liveview, :icon_font_set, "regular"
 ```
 
 ## History

@@ -3,14 +3,14 @@ defmodule Bulma.Dropdown do
   import Bulma.Helpers
   alias Phoenix.LiveView.JS
 
-  def dropdown(%{items: items} = assigns) do
+  def dropdown(%{items: _items} = assigns) do
     assigns =
       assigns
       |> set_attributes_from_assigns(exclude: [:items], include: [:trigger])
 
     ~H"""
     <.dropdown {@attributes}>
-      <%= for item <- items do %>
+      <%= for item <- @items do %>
         <%= case item do %>
         <% "-" -> %>
           <.divider />
